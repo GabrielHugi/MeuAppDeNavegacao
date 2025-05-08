@@ -20,12 +20,19 @@ const passwords = [
 ]
 
 export default function HomeScreen({ navigation }) {
+    const 
+    
+    function checkPass() {
+
+    }
+    
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Login, agent</Text>
             <View style={styles.inputContainer}>
                 <Text style={styles.text}>User name</Text>
                 <TextInput
+                    id='TextInputName'
                     editable
                     maxLength={40}
                     placeholder='your name / username'
@@ -37,6 +44,7 @@ export default function HomeScreen({ navigation }) {
             <View style={styles.inputContainer}> 
                 <Text style={styles.text}>Password</Text>
                 <TextInput
+                    id='TextInputPass'
                     editable
                     maxLength={40}
                     placeholder='your password'
@@ -46,6 +54,11 @@ export default function HomeScreen({ navigation }) {
                     style={styles.textInput}
                 />
             </View>
+            <Button
+                onPress={onPressLearnMore}
+                title="Learn More"
+                color="#841584"
+            />
         </View>
     );
 }
