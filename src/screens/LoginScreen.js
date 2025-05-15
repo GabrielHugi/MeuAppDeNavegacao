@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet, Dimensions, TextInput } from 'react-native';
 
 const windowWidth = Dimensions.get('window').width;
@@ -14,16 +14,21 @@ const passwords = [
         'pass': 'sigma'
     },
     {
-        'name': 'donald trump',
-        'pass': 'elon musk'
+        'name': 'sigma',
+        'pass': 'sigma'
     }
 ]
 
 export default function HomeScreen({ navigation }) {
-    const 
-    
-    function checkPass() {
+    const [username, setUsername] = useState("e");
+    const [password, setPassword] = useState("d");
+    console.log(username);
 
+    function checkPass() {
+        for (let i = 0; i < passwords.length; i++) {
+            if (passwords[i].name == username && passwords[i].pass == password) return 1;
+        }
+        return 0;
     }
     
     return (
@@ -39,6 +44,7 @@ export default function HomeScreen({ navigation }) {
                     autoComplete='off'
                     autoCorrect={false}
                     style={styles.textInput}
+                    onChangeText={(value) => setUsername(value)}
                 />
             </View>
             <View style={styles.inputContainer}> 
@@ -52,13 +58,29 @@ export default function HomeScreen({ navigation }) {
                     autoCorrect={false}
                     secureTextEntry
                     style={styles.textInput}
+                    onChangeText={(value) => setPassword(value)}
                 />
             </View>
-            <Button
-                onPress={onPressLearnMore}
-                title="Learn More"
-                color="#841584"
-            />
+            <View                 
+                style=
+                    {
+                        {
+                        borderStyle: "solid",
+                        borderRadius: 4,
+                        borderWidth: 2,
+                        borderColor:"#393939",
+                        }
+                    }>
+                <Button
+                    onPress={() => {
+                        if (checkPass() == 1) navigation.navigate('Home');                    
+                        }
+                    }
+                    title="Submit"
+                    color= "#6c6c6c"
+                    borderRadius= "0"
+                />
+            </View>
         </View>
     );
 }
@@ -79,18 +101,14 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 24,
     },
-    buttonContainer: {
-        backgroundColor: '#add8e6', // Cor de fundo do container do botão
-        margin: 10,
-        width: windowWidth * 0.5, // 50% da largura da tela
-        borderRadius: 5,
-    },
     inputContainer: {
         padding: 10,
-        backgroundColor: '#add8e6', // Cor de fundo do container do botão
+        backgroundColor:"#dbf6ff", // Cor de fundo do container do botão
         margin: 10,
         width: windowWidth * 0.8, // 50% da largura da tela
         borderRadius: 5,
+        borderWidth: 1,
+        borderColor: "#000000"
     },
     textInput: {
         fontSize: 24,
