@@ -1,32 +1,19 @@
 import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet, Dimensions, TextInput } from 'react-native';
+import secret from '../../db/secret.json';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-
-const passwords = [
-    {
-        'name': 'johnny long long',
-        'pass': 'ohio'
-    },
-    {
-        'name': 'skibidi sigma',
-        'pass': 'sigma'
-    },
-    {
-        'name': 'sigma',
-        'pass': 'sigma'
-    }
-]
 
 export default function HomeScreen({ navigation }) {
     const [username, setUsername] = useState("e");
     const [password, setPassword] = useState("d");
     console.log(username);
 
+
     function checkPass() {
         for (let i = 0; i < passwords.length; i++) {
-            if (passwords[i].name == username && passwords[i].pass == password) return 1;
+            if (secret.passwords[username].pass == password) return 1;
         }
         return 0;
     }
