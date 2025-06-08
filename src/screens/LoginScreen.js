@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import fs from 'fs';
 import { View, Text, Button, StyleSheet, Dimensions, TextInput } from 'react-native';
 import {checkIsLoggedIn, checkIsTokenValid, saveCreds} from "../functions/storage.js";
 import secret from '../../db/secret.json';
@@ -9,11 +8,13 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function HomeScreen({ navigation }) {
-    if (checkIsLoggedIn == true) navigation.navigate('Home');
+    async function isLoggedIn() {
+        if (await checkIsLoggedIn() == true && await checkIsTokenValid() == true) navigation.navigate('Home');
+    }
+    isLoggedIn();
 
     const [username, setUsername] = useState("e");
     const [password, setPassword] = useState("d");
-    console.log(username);
     
     return (
         <View style={styles.container}>
@@ -56,11 +57,11 @@ export default function HomeScreen({ navigation }) {
                         }
                     }>
                 <Button
-                    onPress={() => {
-                        if (checkIsLoggedIn(username, password) == false) {
-                            saveCreds(username, password)
-                            navigation.navigate('Home');
-                        }                   
+                    onPress={async () => {
+                            await saveCreds(username, password);
+                            if (await checkIsTokenValid() == true) {
+                                navigation.navigate('Home');                
+                            }
                         }
                     }
                     title="Submit"

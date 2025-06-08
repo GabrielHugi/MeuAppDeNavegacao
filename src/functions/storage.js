@@ -1,4 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import secret from '../../db/secret.json';
+import 'expo-file-system';
 
 async function checkIsLoggedIn() {
     try {
@@ -15,14 +17,9 @@ async function checkIsTokenValid() {
     try {
         const token = await AsyncStorage.getItem('token');
         const username = await AsyncStorage.getItem('username');
-        fs.readFile("../../db/secret.json", function (error, content) {
-            var data = JSON.parse(content);
-            console.log(error);
-        });
-        if (data.passwords[username] != null) {
-            if (data.passwords[username].pass == token) {
-                return true;
-            } 
+        if (token == null || username == null) return false;
+        if (secret.passwords[username] != null) {
+            if (secret.passwords[username].pass == token) return true;
         }
         return false;
     }
@@ -35,19 +32,10 @@ async function saveCreds(username, password) {
     try {
         await AsyncStorage.setItem('token', password);
         await AsyncStorage.setItem('username', username);
-        fs.readFile("../../db/secret.json", function (error, content) {
-            var data = JSON.parse(content);
-            console.log(error);
-        });
-        if (data.passwords[username] == null) {
-            data.passwords[username].pass = password;
-            fs.writeFile('../../db/secret.json', JSON.stringify(data), json, 'utf8', callback)
-        }
-        return false;
     }
     catch (err) {
         console.log(err);
     }   
 }
 
-
+export { checkIsLoggedIn, checkIsTokenValid, saveCreds };
